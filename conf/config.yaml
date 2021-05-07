@@ -1,0 +1,12 @@
+hydra:
+  run:
+    #dir: ${output_folder}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    dir: ${output_folder}
+
+# Dataset parameters
+output_folder: /home/adelacalle/graph/results
+source_df: /home/adelacalle/graph/datasets/metr-la.h5
+seq_length_x: 12
+seq_length_y: 12
+y_start: 1
+dow: True

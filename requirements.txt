@@ -1,0 +1,7 @@
+tables==3.6.1
+numpy==1.20.2
+pandas==1.2.4
+omegaconf==2.0.6
+hydra_core==1.0.6
+hydra==2.5
+rich==10.1.0
