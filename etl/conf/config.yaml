@@ -1,0 +1,22 @@
+# DB params
+host: localhost
+port: 27017
+
+traffic: 
+  source_path:
+
+air:
+  source_path:
+
+# Request weather data
+weather:
+  source_path: 
+  dst_path: 
+  init_date: 01-01-2019
+  end_date: 31-12-2019
+  station: 43
+  apikey: None
+  include_stations: True
+
+calendar:
+  source_path:
