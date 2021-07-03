@@ -1,12 +1,13 @@
 import os
+import logging
 from omegaconf import DictConfig
 import hydra
 import numpy as np
 import pandas as pd
 import tables
-from rich.console import Console
 
-console = Console()
+
+log = logging.getLogger(__name__)
 
 
 def generate_graph_seq2seq_io_data(
@@ -71,7 +72,7 @@ def split_dataset(x, y, train_split:float = 0.7, test_split:int = 0.2):
 @hydra.main(config_path="conf", config_name="config")
 def create_dataset(cfg: DictConfig) -> None:
     
-    console.log('Creating dataset...')
+    log.info('Creating dataset...')
     if os.path.exists(cfg.output_folder):
         reply = str(input(f'{cfg.output_folder} exists. Do you want to overwrite it? (y/n)')).lower().strip()
         if reply[0] != 'y': exit
@@ -84,7 +85,7 @@ def create_dataset(cfg: DictConfig) -> None:
     else:
         raise FileNotFoundError('Source dataframe not found.')
     
-    console.log("Generating sequences...")
+    log.info("Generating sequences...")
     x_offsets, y_offsets = create_offsets(seq_length_x, seq_length_y, cfg.y_start)
     # Expected shape of input / output:
     # x: (num_samples, input_length, num_nodes, input_dim)
@@ -97,26 +98,26 @@ def create_dataset(cfg: DictConfig) -> None:
         add_day_in_week=cfg.dow,
     )
 
-    console.log("Input/Output shapes:", style='bold')
-    console.log(f'X shape: {x.shape}')
-    console.log(f'Y shape: {y.shape}')
+    log.info("Input/Output shapes:")
+    log.info(f'X shape: {x.shape}')
+    log.info(f'Y shape: {y.shape}')
     
     # Split dataset
-    console.log('Splitting dataset...')
+    log.info('Splitting dataset...')
     X, Y = split_dataset(x, y)
 
     # Write the data into npz file.
-    console.log("Train/Val/Test shapes:", style='bold')
+    log.info("Train/Val/Test shapes:")
     for cat in ["train", "val", "test"]:
-        console.log(f"x {cat}: {X[cat].shape}")
-        console.log(f"y {cat}: {Y[cat].shape}")
+        log.info(f"x {cat}: {X[cat].shape}")
+        log.info(f"y {cat}: {Y[cat].shape}")
         np.savez_compressed(
             os.path.join(cfg.output_folder, f"{cat}.npz"),
             x=X[cat], y= Y[cat],
             x_offsets=x_offsets[:, np.newaxis],
             y_offsets=y_offsets[:, np.newaxis])
 
-    console.log("Finished!")
+    log.info("Finished!")
 
 if __name__ == "__main__":
     create_dataset()
