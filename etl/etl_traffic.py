@@ -17,7 +17,7 @@ __status__ = "Development"
 import os
 import logging
 import hydra
-from omegaconf import DictConf
+from omegaconf import DictConfig
 import numpy as np
 import pandas as pd
 from glob import glob
@@ -62,7 +62,7 @@ def insert_traffic_density_dataframes_to_db(path, database, coll):
 
 def get_location_for_pmeds(dfs):
     # Define the projector, to transform from UTM to lat/lon coordinates
-    myProj = Proj("+proj=utm +zone=30N, +south +ellps=WGS84 +datum=WGS84 +units=m +no_defs")
+    myProj = Proj("+proj=utm +zone=30 +north +ellps=WGS84 +datum=WGS84 +units=m +no_defs")
     # Convert all dataframes into dicts
     dicts = [df.to_dict(orient='index') for df in dfs.values()]
     # Iterate. Look for the coordinates columns. Then add a key
@@ -100,7 +100,7 @@ def get_location_for_pmeds(dfs):
 
 
 @hydra.main(config_path="conf", config_name="config")
-def main(cfg: DictConf) -> None:
+def main(cfg: DictConfig) -> None:
     log.info('Initializing ETL for traffic data...')
     log.info('------------------------------------\n')
 
@@ -129,7 +129,7 @@ def main(cfg: DictConf) -> None:
 
     log.info('Processing density collection for traffic database')
     density_coll = db.get_mongo_collection(traffic, 'density')
-    insert_traffic_density_dataframes_to_db(os.path.join(cfg.source_path,
+    insert_traffic_density_dataframes_to_db(os.path.join(cfg.traffic.source_path,
                                             'intensidad_trafico', 'csv'),
                                             traffic, 'density')
 
