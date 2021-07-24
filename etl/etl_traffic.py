@@ -34,7 +34,7 @@ def get_pmed_dataframes_from_paths(path):
     if not os.path.exists(path):
         raise FileNotFoundError("Given path for pmed dataframes does not exists.")
     else:
-        folders = glob(os.path.join(path, 'pmed*'))
+        folders = glob(os.path.join(path, '*'))
         files = [glob(os.path.join(folder, '*csv'))[0] for folder in folders]
         dfs = [pd.read_csv(file, delimiter=';', encoding='latin1') for file in files]
     return dict(zip(files, dfs))
@@ -106,7 +106,7 @@ def main(cfg: DictConf) -> None:
 
     log.info('Get measure points dataframes from path')
     dfs = get_pmed_dataframes_from_paths(os.path.join(cfg.traffic.source_path,
-                                                      'ubicacion_puntos_medida', 'ubicacion'))
+                                                      'ubicacion_puntos_medida'))
 
     log.info('Get pmed dictionaries with location info')
     pmed_dicts = get_location_for_pmeds(dfs)
