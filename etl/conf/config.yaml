@@ -3,7 +3,7 @@ host: localhost
 port: 27017
 
 traffic: 
-  source_path:
+  source_path: /Users/adelacalle/Desktop/TFM
 
 air:
   source_path:

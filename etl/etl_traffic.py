@@ -34,10 +34,21 @@ def get_pmed_dataframes_from_paths(path):
     if not os.path.exists(path):
         raise FileNotFoundError("Given path for pmed dataframes does not exists.")
     else:
-        folders = glob(os.path.join(path, '*'))
-        files = [glob(os.path.join(folder, '*csv'))[0] for folder in folders]
-        dfs = [pd.read_csv(file, delimiter=';', encoding='latin1') for file in files]
-    return dict(zip(files, dfs))
+        dfs = list()
+        filepaths = list()
+        for root, folders, files in os.walk(path):
+            for file in files:
+                if file.endswith('.csv'):
+                    filepath = os.path.join(root, file)
+                    try:
+                        df = pd.read_csv(filepath, delimiter=';')
+                    except:
+                        df = pd.read_csv(filepath, delimiter=';', encoding='latin1')
+                    filedate = file.replace('pmed_ubicacion_', '').replace('.csv', '')
+                    df['date'] = pd.to_datetime(filedate, format='%m-%Y')
+                    dfs.append(df)
+                    filepaths.append(filepath)
+    return dict(zip(filepaths, dfs))
 
 
 def insert_traffic_density_dataframes_to_db(path, database, coll):
@@ -104,24 +115,24 @@ def main(cfg: DictConfig) -> None:
     log.info('Initializing ETL for traffic data...')
     log.info('------------------------------------\n')
 
-    log.info('Get measure points dataframes from path')
-    dfs = get_pmed_dataframes_from_paths(os.path.join(cfg.traffic.source_path,
-                                                      'ubicacion_puntos_medida'))
-
-    log.info('Get pmed dictionaries with location info')
-    pmed_dicts = get_location_for_pmeds(dfs)
-
     # Connect with the mongo daemon
     client = db.connect_mongo_daemon(host=cfg.host, port=cfg.port)
     log.info('Creating traffic database')
     traffic = db.get_mongo_database(client, 'traffic')
 
+    log.info('Get measure points dataframes from path')
+    dfs = get_pmed_dataframes_from_paths(os.path.join(cfg.traffic.source_path,
+                                                      'ubicacion_puntos_medida'))
+
+    # log.info('Get pmed dictionaries with location info')
+    # pmed_dicts = get_location_for_pmeds(dfs)
+
     log.info('Creating pmed (measure points) collection for traffic database')
     pmed_coll = db.get_mongo_collection(traffic, 'pmed')
 
     log.info('Inserting entries from dataframes')
-    for dd in pmed_dicts:
-        result = db.insert_many_documents(traffic, 'pmed', [d for d in dd.values()])
+    for df in dfs.values():
+        result = db.insert_many_documents(traffic, 'pmed', [dd for dd in df.to_dict(orient='index').values()])
     log.info('Insertion ended')
     log.info('Creating geospatial index...')
     pmed_coll.create_index([("location", pymongo.GEOSPHERE)])

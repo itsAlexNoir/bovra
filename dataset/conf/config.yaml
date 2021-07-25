@@ -1,0 +1,6 @@
+# DB params
+host: localhost
+port: 27017
+
+start_date: 01-01-2019
+end_date: 31-12-2019
