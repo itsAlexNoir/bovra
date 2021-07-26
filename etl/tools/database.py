@@ -2,8 +2,10 @@
 
 This module contain routines for creating and interacting with a mongodb database.
 """
-#from pymongo import MongoClient
 import pymongo
+import logging
+
+log = logging.getLogger(__name__)
 
 def connect_mongo_daemon(host=None, port=None):
     if host is None and port is None:
