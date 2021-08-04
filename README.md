@@ -1,2 +1,2 @@
 # bovra
-A code for predicting time-series of traffic in different cities. 
+A code for predicting time-series of traffic in different cities. The core of the code implements a Graph Neural Network (GNN) to predict urban traffic density. GNN's actually allows to treat the temporal dynamics of different spatial locations. In particular, it uses two methods: Difussion Convolutional Recurrent Neural Networks (DCRNN), and Graph WaveNet for Deep Spatial-Temporal Graph Modeling (Graph WaveNet). In addition, the code contains routines for ETL traffic data from Madrid Open data portal.
