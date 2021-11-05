@@ -7,6 +7,7 @@ defaults:
   - override hydra/hydra_logging: colorlog
 
 pmed_path: /Users/adelacalle/Desktop/pmed/2019
+historic_path: /Users/adelacalle/Desktop/intensidad_trafico/2019
 results: /Users/adelacalle/Desktop/bovra_results
 
 start_date: 01-01-2019
