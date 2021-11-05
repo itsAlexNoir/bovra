@@ -29,7 +29,7 @@ def main(cfg: DictConfig) -> None:
     with open(os.path.join(cfg.results, "pts_med_M30.txt"), "r") as f:
         pmeds = [line.replace("\n", "") for line in f.readlines()]
 
-    historic_csv = glob(os.path.join(cfg.historic_path, "*.csv"))
+    historic_csv = sorted(glob(os.path.join(cfg.historic_path, "*.csv")))
     cols = ["id", "fecha", "vmed"]
     m30 = []
     for month in track(historic_csv, description="Reading historic data..."):
