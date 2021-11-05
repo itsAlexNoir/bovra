@@ -1,0 +1,13 @@
+hydra:
+  run:
+    dir: ${results}
+
+defaults:
+  - override hydra/job_logging: colorlog
+  - override hydra/hydra_logging: colorlog
+
+pmed_path: /Users/adelacalle/Desktop/pmed/2019
+results: /Users/adelacalle/Desktop/bovra_results
+
+start_date: 01-01-2019
+end_date: 31-12-2019
