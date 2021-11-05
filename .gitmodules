@@ -1,0 +1,9 @@
+[submodule "STAWnet"]
+	path = STAWnet
+	url = https://github.com/CYBruce/STAWnet.git
+[submodule "DCRNN"]
+	path = DCRNN
+	url = https://github.com/liyaguang/DCRNN.git
+[submodule "Graph-WaveNet"]
+	path = Graph-WaveNet
+	url = https://github.com/sshleifer/Graph-WaveNet.git
