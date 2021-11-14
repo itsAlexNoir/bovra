@@ -30,7 +30,7 @@ def main(cfg: DictConfig) -> None:
         pmeds = [line.replace("\n", "") for line in f.readlines()]
 
     historic_csv = sorted(glob(os.path.join(cfg.historic_path, "*.csv")))
-    cols = ["id", "fecha", "vmed"]
+    cols = ["id", "fecha", "vmed", "intensidad", "ocupacion", "carga"]
     m30 = []
     for month in track(historic_csv, description="Reading historic data..."):
         log.info(f"Loading file: {month}")
