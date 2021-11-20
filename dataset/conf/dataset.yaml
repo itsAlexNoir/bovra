@@ -10,5 +10,11 @@ pmed_path: /Users/adelacalle/Desktop/results/data/pmed/2019
 historic_path: /Users/adelacalle/Desktop/results/data/intensidad_trafico/2019
 results: /Users/adelacalle/Desktop/results/dataset
 
+pmed_list_name: pts_med_M30.txt
+historic_name: historic_M30.csv
+dataset_name: dataset_M30.h5
+
+dataset_parameter: vmed
+
 start_date: 01-01-2019
 end_date: 31-12-2019

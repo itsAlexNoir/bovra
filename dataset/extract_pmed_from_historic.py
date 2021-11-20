@@ -26,7 +26,7 @@ def main(cfg: DictConfig) -> None:
     # Load selected pmed list
     log.info("Load selected pmed list")
 
-    with open(os.path.join(cfg.results, "pts_med_M30.txt"), "r") as f:
+    with open(os.path.join(cfg.results, cfg.pmed_list_name), "r") as f:
         pmeds = [line.replace("\n", "") for line in f.readlines()]
 
     historic_csv = sorted(glob(os.path.join(cfg.historic_path, "*.csv")))
@@ -40,7 +40,7 @@ def main(cfg: DictConfig) -> None:
 
     m30 = pd.concat(m30, ignore_index=True)
     log.info("Save filtered dataframe")
-    m30.to_csv(os.path.join(cfg.results, "historic_M30.csv"),
+    m30.to_csv(os.path.join(cfg.results, cfg.historic_name),
                sep=";", index=False)
 
     log.info("Extraction finished!")
