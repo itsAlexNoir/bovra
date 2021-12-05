@@ -38,7 +38,9 @@ def main(cfg: DictConfig) -> None:
         m30.append(pd.concat([df[df["id"] == int(pmed)][cols]
                               for pmed in pmeds], ignore_index=True))
 
-    m30 = pd.concat(m30, ignore_index=True)
+    # Concatenate dataframes for all months.
+    # Replace all missing values (NaN) with 0.0
+    m30 = pd.concat(m30, ignore_index=True).fillna(0.0)
     log.info("Save filtered dataframe")
     m30.to_csv(os.path.join(cfg.results, cfg.historic_name),
                sep=";", index=False)

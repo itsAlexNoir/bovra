@@ -41,14 +41,13 @@ def main(cfg: DictConfig) -> None:
 
     # Columns of interest
     log.info("Filter dataframe by selected pmed's...")
-    # cols_of_interest = ["id", "utm_x", "utm_y"]
+    cols_of_interest = ["id", "utm_x", "utm_y", "longitud", "latitud"]
     res = pd.concat([df.apply(lambda x: x if x[2] in pts_pmed else None, axis=1)
-                    for df in ddfs], ignore_index=True)
-    res = res[res.columns[:-1]].dropna().drop_duplicates()
+                    for df in ddfs], ignore_index=True)[cols_of_interest].dropna().drop_duplicates()
 
     # Calculate square matrix of distances
     log.info("Calculate square matrix distances...")
-    mat = np.zeros((num_pmed, num_pmed))
+    mat = np.zeros((res.index.size, res.index.size))
     for i, idx in enumerate(track(res.index, description="Calculating distances")):
         for j, jdx in enumerate(res.index):
             mat[i, j] = np.sqrt(np.square(
@@ -57,7 +56,7 @@ def main(cfg: DictConfig) -> None:
     # Check if calculation is right
     assert np.all(mat == np.transpose(mat)), "Distance matrix is not square"
     # Save square matrix distances as dataframe to csv
-    pd.DataFrame(data=mat, columns=pts_pmed, index=pts_pmed).to_csv(
+    pd.DataFrame(data=mat, columns=res["id"].tolist(), index=res["id"].tolist()).to_csv(
         os.path.join(cfg.results, "dist_mat_pmed.csv"))
 
 
