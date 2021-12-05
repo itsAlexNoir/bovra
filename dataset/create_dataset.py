@@ -16,7 +16,7 @@ def create_dataset(path, dst_path, column="vmed"):
     df["fecha"] = pd.to_datetime(df["fecha"])
     #log.info(f"Dataset shape: {df.shape}")
     log.info("Pivoting...")
-    table = df.pivot(index="fecha", columns="id", values=column)
+    table = df.pivot(index="fecha", columns="id", values=column).fillna(0.0)
     log.info("Saving...")
     table.to_hdf(dst_path, column)
 
