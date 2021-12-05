@@ -36,28 +36,32 @@ def main(cfg: DictConfig) -> None:
     num_pmed = len(pts_pmed)
     log.info(f"Number of pmed to be considered: {num_pmed}")
     # Save selected pmed's
-    with open(os.path.join(cfg.results, "pts_med_M30.txt"), 'w') as f:
-        [f.write(str(pts)+'\n') for pts in pts_pmed]
+    with open(os.path.join(cfg.results, "graph_sensor_ids.txt"), 'w') as f:
+        [f.write(str(pts)+',') for pts in pts_pmed]
 
     # Columns of interest
     log.info("Filter dataframe by selected pmed's...")
     cols_of_interest = ["id", "utm_x", "utm_y", "longitud", "latitud"]
     res = pd.concat([df.apply(lambda x: x if x[2] in pts_pmed else None, axis=1)
                     for df in ddfs], ignore_index=True)[cols_of_interest].dropna().drop_duplicates()
+    res.to_csv(os.path.join(
+        cfg.results, "graph_sensor_locations.csv"), index=False)
 
     # Calculate square matrix of distances
     log.info("Calculate square matrix distances...")
-    mat = np.zeros((res.index.size, res.index.size))
+    to = []
+    fromm = []
+    cost = []
+
     for i, idx in enumerate(track(res.index, description="Calculating distances")):
         for j, jdx in enumerate(res.index):
-            mat[i, j] = np.sqrt(np.square(
-                res.loc[idx][1] - res.loc[jdx][1]) + np.square(res.loc[idx][2] - res.loc[jdx][2]))
+            to.append(res.loc[idx, "id"])
+            fromm.append(res.loc[jdx, "id"])
+            cost.append(np.sqrt((res.loc[idx, "utm_x"] - res.loc[jdx, "utm_x"])**2 +
+                                (res.loc[idx, "utm_y"] - res.loc[jdx, "utm_y"])**2))
 
-    # Check if calculation is right
-    assert np.all(mat == np.transpose(mat)), "Distance matrix is not square"
-    # Save square matrix distances as dataframe to csv
-    pd.DataFrame(data=mat, columns=res["id"].tolist(), index=res["id"].tolist()).to_csv(
-        os.path.join(cfg.results, "dist_mat_pmed.csv"))
+    pd.DataFrame(data={"to": to, "fromm": fromm, "cost": cost}).to_csv(
+        os.path.join(cfg.results, "distances_m30_2019.csv"), index=False)
 
 
 if __name__ == "__main__":
