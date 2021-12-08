@@ -22,9 +22,11 @@ def main(cfg: DictConfig) -> None:
 
     num_pmed = len(valid_pmed)
     log.info(f"Number of pmed to be considered: {num_pmed}")
+    tofile = [str(pts)+"," for pts in valid_pmed]
+    tofile[-1] = tofile[-1].replace(",", " ")
     # Save selected pmed's
     with open(os.path.join(cfg.results, cfg.sensor_id_file), 'w') as f:
-        [f.write(str(pts)+',') for pts in valid_pmed]
+        [f.write(pts) for pts in tofile]
 
     locations_df = pd.read_csv(os.path.join(
         cfg.results, cfg.pmed_locations_name))
@@ -49,7 +51,7 @@ def main(cfg: DictConfig) -> None:
             cost.append(np.sqrt((filtered.loc[idx, "utm_x"] - filtered.loc[jdx, "utm_x"])**2 +
                                 (filtered.loc[idx, "utm_y"] - filtered.loc[jdx, "utm_y"])**2))
 
-    pd.DataFrame(data={"to": to, "fromm": fromm, "cost": cost}).to_csv(
+    pd.DataFrame(data={"to": to, "from": fromm, "cost": cost}).to_csv(
         os.path.join(cfg.results, cfg.sensor_distances_file), index=False)
 
     log.info("Sensor script finished!")

@@ -60,7 +60,7 @@ def main(cfg: DictConfig) -> None:
             cost.append(np.sqrt((res.loc[idx, "utm_x"] - res.loc[jdx, "utm_x"])**2 +
                                 (res.loc[idx, "utm_y"] - res.loc[jdx, "utm_y"])**2))
 
-    pd.DataFrame(data={"to": to, "fromm": fromm, "cost": cost}).to_csv(
+    pd.DataFrame(data={"to": to, "from": fromm, "cost": cost}).to_csv(
         os.path.join(cfg.results, cfg.pmed_distances_name), index=False)
 
 
