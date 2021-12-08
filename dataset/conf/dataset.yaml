@@ -6,13 +6,20 @@ defaults:
   - override hydra/job_logging: colorlog
   - override hydra/hydra_logging: colorlog
 
-pmed_path: /Users/adelacalle/Desktop/results/data/pmed/2019
-historic_path: /Users/adelacalle/Desktop/results/data/intensidad_trafico/2019
-results: /Users/adelacalle/Desktop/results/dataset
+pmed_path: /home/adelacalle/Code/bovra/data/pmeds
+historic_path: /home/adelacalle/Code/bovra/data/intensidad_trafico/2019
+results: /home/adelacalle/Code/bovra/data
 
 pmed_list_name: pts_med_M30.txt
+pmed_locations_name: pmed_locations.csv
+pmed_distances_name: pmed_distances.csv
+
 historic_name: historic_M30.csv
 dataset_name: dataset_M30.h5
+
+sensor_id_file: graph_sensor_ids.txt
+sensor_locations_file: graph_sensor_locations.csv
+sensor_distances_file: distances_m30_2019.csv
 
 dataset_parameter: vmed
 

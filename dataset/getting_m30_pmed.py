@@ -36,7 +36,7 @@ def main(cfg: DictConfig) -> None:
     num_pmed = len(pts_pmed)
     log.info(f"Number of pmed to be considered: {num_pmed}")
     # Save selected pmed's
-    with open(os.path.join(cfg.results, "graph_sensor_ids.txt"), 'w') as f:
+    with open(os.path.join(cfg.results, cfg.pmed_list_name), 'w') as f:
         [f.write(str(pts)+',') for pts in pts_pmed]
 
     # Columns of interest
@@ -45,7 +45,7 @@ def main(cfg: DictConfig) -> None:
     res = pd.concat([df.apply(lambda x: x if x[2] in pts_pmed else None, axis=1)
                     for df in ddfs], ignore_index=True)[cols_of_interest].dropna().drop_duplicates()
     res.to_csv(os.path.join(
-        cfg.results, "graph_sensor_locations.csv"), index=False)
+        cfg.results, cfg.pmed_locations_name), index=False)
 
     # Calculate square matrix of distances
     log.info("Calculate square matrix distances...")
@@ -61,7 +61,7 @@ def main(cfg: DictConfig) -> None:
                                 (res.loc[idx, "utm_y"] - res.loc[jdx, "utm_y"])**2))
 
     pd.DataFrame(data={"to": to, "fromm": fromm, "cost": cost}).to_csv(
-        os.path.join(cfg.results, "distances_m30_2019.csv"), index=False)
+        os.path.join(cfg.results, cfg.pmed_distances_name), index=False)
 
 
 if __name__ == "__main__":
