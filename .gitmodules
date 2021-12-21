@@ -1,9 +1,0 @@
-[submodule "models/DCRNN"]
-	path = models/DCRNN
-	url = https://github.com/liyaguang/DCRNN.git
-[submodule "models/Graph-WaveNet"]
-	path = models/Graph-WaveNet
-	url = https://github.com/sshleifer/Graph-WaveNet.git
-[submodule "models/STAWnet"]
-	path = models/STAWnet
-	url = https://github.com/CYBruce/STAWnet.git
