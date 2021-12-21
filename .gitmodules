@@ -1,0 +1,9 @@
+[submodule "models/DCRNN"]
+	path = models/DCRNN
+	url = github:itsAlexNoir/DCRNN.git
+[submodule "models/Graph-WaveNet"]
+	path = models/Graph-WaveNet
+	url = github:itsAlexNoir/Graph-WaveNet.git
+[submodule "models/STAWnet"]
+	path = models/STAWnet
+	url = github:itsAlexNoir/STAWnet.git
