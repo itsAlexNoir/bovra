@@ -27,7 +27,8 @@ def main(cfg: DictConfig) -> None:
     log.info("Load selected pmed list")
 
     with open(os.path.join(cfg.results, cfg.pmed_list_name), "r") as f:
-        pmeds = [line.replace("\n", "") for line in f.readlines()]
+        lines = f.readlines()
+    pmeds = lines[0].split(",")[:-1]
 
     historic_csv = sorted(glob(os.path.join(cfg.historic_path, "*.csv")))
     cols = ["id", "fecha", "vmed", "intensidad", "ocupacion", "carga"]
