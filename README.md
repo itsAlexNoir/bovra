@@ -1,4 +1,4 @@
-# bovra
+# bovra 🚦
 
 A code for predicting time-series of traffic in different cities. The core of the
 code implements a Graph Neural Network (GNN) to predict urban traffic density.
@@ -7,9 +7,9 @@ project explores two flavors of spatial-temporal GNNs: Diffusion Convolutional
 Recurrent Neural Networks (DCRNN) and Graph WaveNet for Deep Spatial-Temporal
 Graph Modeling. In addition, the repository provides a small ETL layer that
 ingests and filters traffic data obtained from the Madrid Open Data portal so
-that these models can be trained on clean, ready-to-use datasets.
+that these models can be trained on clean, ready-to-use datasets. ✨
 
-## Repository structure
+## Repository structure 🗂️
 
 - `main.py` – a lightweight CLI entrypoint (currently prints a greeting) that can
   later be extended to orchestrate training, evaluation, and preprocessing
@@ -25,7 +25,7 @@ that these models can be trained on clean, ready-to-use datasets.
   Graph WaveNet, and STAWnet). Each model subdirectory can be expanded with
   training and evaluation routines.
 
-## Requirements
+## Requirements ✅
 
 - Python 3.13 or newer (the project already targets `>=3.13` in `pyproject.toml`).
 - Stable dependencies listed in `requirements.txt` / `pyproject.toml`, including
@@ -33,13 +33,13 @@ that these models can be trained on clean, ready-to-use datasets.
   `statsmodels`, `matplotlib`, and others.
 
 Install the project and its pinned dependencies through `uv`, which handles
-virtual environments and dependency management together.
+virtual environments and dependency management together. 🧰
 
 ```sh
 uv sync
 ```
 
-## Configuration
+## Configuration 🛠️
 
 - `conf/config.yaml` sets the directory where Hydra writes its run outputs and
   defines base dataset parameters such as the source HDF dataset, sequence
@@ -71,7 +71,7 @@ pipeline include:
 - `graph_sensor_ids.txt`, `graph_sensor_locations.csv`, `distances_m30_2019.csv`
   – auxiliary files used when constructing graph structures for training.
 
-## Dataset preparation workflow
+## Dataset preparation workflow 🧭
 
 1. **Select M30 sensors** – `dataset/getting_m30_pmed.py` scans raw CSVs for the
    `M30` measurement type, writes the selected sensor list, locations, and the
@@ -88,7 +88,7 @@ pipeline include:
 Each script logs progress via Python's `logging` module and its own `rich`
 progress bars where appropriate.
 
-## Model implementations
+## Model implementations 🧠
 
 - `models/DCRNN/` – Diffusion Convolutional Recurrent Neural Network implementation.
 - `models/Graph-WaveNet/` – Graph WaveNet for spatial-temporal modeling.
@@ -98,7 +98,7 @@ These subprojects contain training/graph utilities that can be wired to the
 datasets produced above. Look into each folder for model-specific instructions
 and dependency requirements.
 
-## Next steps
+## Next steps 🚀
 
 1. Extend `main.py` into a CLI or training orchestration layer that ties
    together configuration, preprocessing, and model training.
@@ -107,8 +107,3 @@ and dependency requirements.
 3. Commit the `data/` artifacts or provide a script to download the Madrid Open
    Data CSVs so the ETL pipeline can run end-to-end.
 
-## License & contribution
-
-Use the repository as a foundation for researching spatial-temporal traffic
-prediction. Add your own license header or contribution guidelines as the
-project grows.
