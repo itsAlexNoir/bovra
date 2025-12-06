@@ -1,3 +1,14 @@
+"""Extract PMED measurements from historic monthly CSV files.
+
+This script reads configuration from Hydra (`conf/dataset.yaml`) and
+filters historic monthly CSV files to only keep rows corresponding to a
+preselected list of PMED sensor IDs. The filtered result is concatenated
+and written to an output CSV.
+
+Typical usage:
+    python -m dataset.extract_pmed_from_historic
+"""
+
 import os
 import logging
 from glob import glob
@@ -11,13 +22,13 @@ log = logging.getLogger(__name__)
 
 @hydra.main(config_path="conf", config_name="dataset")
 def main(cfg: DictConfig) -> None:
-    """
-    Extract PMEDs from historic data.
+    """Hydra entrypoint to extract PMEDs from historic CSV files.
 
     Parameters
     ----------
-    cfg : dict
-        Configuration dictionary.  
+    cfg : omegaconf.DictConfig
+        Configuration read by Hydra. Expected keys include `results`,
+        `pmed_list_name`, `historic_path` and `historic_name`.
     """
     log.info("="*80)
     log.info(" " * 20 + "Extract pmed from database")

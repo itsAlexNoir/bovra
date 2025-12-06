@@ -1,3 +1,10 @@
+"""Discover M30 measurement points and produce location/distance files.
+
+This script finds PMED sensors that report the `M30` measurement type
+across available sensor CSVs, writes the selected sensor list and their
+locations, and computes a pairwise distance matrix saved to CSV.
+"""
+
 import os
 import logging
 from glob import glob
@@ -12,6 +19,15 @@ log = logging.getLogger(__name__)
 
 @hydra.main(config_path="conf", config_name="dataset")
 def main(cfg: DictConfig) -> None:
+    """Hydra entrypoint to find sensors reporting M30 and compute distances.
+
+    Parameters
+    ----------
+    cfg : omegaconf.DictConfig
+        Configuration read by Hydra. Expected keys include `results`,
+        `pmed_path`, `pmed_list_name`, and `pmed_locations_name`.
+    """
+
     log.info("=" * 80)
     log.info(" " * 20 + "Getting M30 measure points")
     log.info("=" * 80)

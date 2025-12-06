@@ -1,3 +1,10 @@
+"""Generate sensor metadata and distance matrices.
+
+Reads the processed dataset (HDF), filters sensor locations to the
+selected sensors, and calculates pairwise Euclidean distances in UTM
+coordinates. Results are written to CSV files in the `results` folder.
+"""
+
 import os
 import logging
 import pandas as pd
@@ -11,6 +18,15 @@ log = logging.getLogger(__name__)
 
 @hydra.main(config_path="conf", config_name="dataset")
 def main(cfg: DictConfig) -> None:
+    """Hydra entrypoint that computes sensor files and distance matrix.
+
+    Parameters
+    ----------
+    cfg : omegaconf.DictConfig
+        Configuration read by Hydra. Expected keys include `results`,
+        `dataset_name`, `pmed_locations_name`, `sensor_id_file`, and
+        `sensor_locations_file`.
+    """
 
     log.info("=" * 80)
     log.info(" " * 25 + "Getting sensor info")
